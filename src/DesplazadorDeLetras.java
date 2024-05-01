@@ -15,7 +15,7 @@ public class DesplazadorDeLetras {
         return letraEncriptada;
     }
 
-    String unionDeLetrasEnPalabras(String textoInicial, int clave) {
+    public String unionDeLetrasEnPalabras(String textoInicial, int clave) {
         StringBuilder creadorDeTextoEncriptado = new StringBuilder();
         for (int i = 0; i < textoInicial.length(); i++) {
             char letraSinEncriptar = textoInicial.charAt(i);

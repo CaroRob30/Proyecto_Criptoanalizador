@@ -9,7 +9,7 @@ el texto desencriptado.
 */
 public class Desencriptador {
 
-    private DesplazadorDeLetras desplazadorDeLetras = new DesplazadorDeLetras();
+    private final DesplazadorDeLetras desplazadorDeLetras = new DesplazadorDeLetras();
 
     public String desencriptarConClave(String textoEncriptado, int clave) {
         String textoDesencriptado = desplazadorDeLetras.unionDeLetrasEnPalabras(textoEncriptado, -clave);
