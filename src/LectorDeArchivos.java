@@ -2,6 +2,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+/*
+Esta clase tiene la función de leer archivos de texto mediante dos metodos.
+El método privado "leerArchivo" toma un objeto de la case File como entrada y lee el contenido del
+mismo línea por línea mediante un BufferedReader. Se utiliza un StringBuilder para que, mediante
+un bucle while, se vaya agregando cada línea y se devuelva una cadena de texto.
+El método público "obtenerRutaDeArchivo" toma una ruta de archivo, usa un objeto File y llama al
+método "leerArchivo" para realizar la lectura de su contenido y devolver la cadena de texto.
+ */
 
 public class LectorDeArchivos {
 

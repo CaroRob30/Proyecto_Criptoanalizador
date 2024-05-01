@@ -1,5 +1,21 @@
 import java.io.IOException;
 import java.util.Scanner;
+/*
+En esta clase se implementa la lógica principal del programa que interactúa con el usuario para
+ofrecer diferentes opciones de encriptado y desencriptado de archivos de texto.
+Dentro del método main, se crea un bucle do-while para mostrar un menú de opciones al usuario,
+leyendo la selección y, dependiendo de la selección elegida, se realizan diferentes opciones
+como encriptación con clave, encriptación aleatoria, desencriptación con clave o desencriptación
+por fuerza bruta.
+Las clases de los objetos creados en el main son "LectorDeArchivos", "Encriptador", Desencriptador",
+"DesencriptadorPorFuerzaBruta", "GeneradorDeDialogos", GuardarArchivos". Cada uno de los objetos tiene
+como funcion realizar las acciones correspondientes de lectura, encriptación, desencriptación y
+guardado de un texto.
+Se hace el manejo de excepciones en cada uno de los casos si es que surge algún error en la ejecución
+del programa.
+Finalemente el bucle termina y con él el programa cuando se selecciona la opcion 5 que es la salida
+del programa.
+*/
 
 public class Main {
     public static void main(String[] args) {
@@ -29,20 +45,21 @@ public class Main {
                 case 1:
                     //Encriptar un archivo de texto con clave desde una ruta proporcionada.
 
-                    String rutaParaEncriptar = dialogos.solicitarRutaEncriptar();
-                    int claveParaEncriptar = dialogos.solicitarClaveEncriptar();
+                    String rutaParaEncriptar = dialogos.solicitarRutaParaEncriptar();
+                    int claveParaEncriptar = dialogos.solicitarClaveParaEncriptar();
 
                     try {
                         String contenido = lectorDeArchivos.obtenerRutaDeArchivo(rutaParaEncriptar);
                         System.out.println("Encriptando...\n");
 
-                        String rutaGuardarTextoEncriptado = dialogos.solicitarRutaGuardar();
-                        String nuevoNombreTextoEncriptado = dialogos.solicitarNombreGuardar();
+                        String rutaGuardarTextoEncriptado = dialogos.solicitarRutaParaGuardar();
+                        String nuevoNombreTextoEncriptado = dialogos.solicitarNombreParaGuardar();
 
                         String textoEncriptado = encriptador.encriptarTextoConClave(contenido, claveParaEncriptar);
 
-                        guardarArchivo.guardarTextoEncriptado(rutaGuardarTextoEncriptado,
-                                nuevoNombreTextoEncriptado, textoEncriptado);
+                        String rutaCompleta = guardarArchivo.guardarTextoEncriptado
+                                (rutaGuardarTextoEncriptado, nuevoNombreTextoEncriptado, textoEncriptado);
+                        dialogos.mostrarGuardadoExitoso(rutaCompleta);
 
                     } catch (IOException e) {
                         System.out.println("Se ha producido un error al encriptar, intente de nuevo" + e.getMessage());
@@ -52,18 +69,19 @@ public class Main {
                 case 2:
                     //Encriptar un archivo de texto con una clave aleatoria desde una ruta proporcionada.
 
-                    String rutaParaEncriptarAleatoriamente = dialogos.solicitarRutaEncriptar();
+                    String rutaParaEncriptarAleatoriamente = dialogos.solicitarRutaParaEncriptar();
                     try {
                         String contenido = lectorDeArchivos.obtenerRutaDeArchivo(rutaParaEncriptarAleatoriamente);
                         System.out.println("Encriptando...\n");
 
-                        String rutaGuardarTextoEncriptado = dialogos.solicitarRutaGuardar();
-                        String nuevoNombreTextoEncriptado = dialogos.solicitarNombreGuardar();
+                        String rutaGuardarTextoEncriptado = dialogos.solicitarRutaParaGuardar();
+                        String nuevoNombreTextoEncriptado = dialogos.solicitarNombreParaGuardar();
 
                         String textoEncriptado = encriptador.encriptarTextoConClaveAleatoria(contenido);
 
-                        guardarArchivo.guardarTextoEncriptado(rutaGuardarTextoEncriptado,
-                                nuevoNombreTextoEncriptado, textoEncriptado);
+                        String rutaCompleta = guardarArchivo.guardarTextoEncriptado
+                                (rutaGuardarTextoEncriptado, nuevoNombreTextoEncriptado, textoEncriptado);
+                        dialogos.mostrarGuardadoExitoso(rutaCompleta);
 
                     } catch (IOException e) {
                         System.out.println("Se ha producido un error al encriptar, intente de nuevo" + e.getMessage());
@@ -72,19 +90,21 @@ public class Main {
 
                 case 3:
                     //Desencriptar un archivo de texto con clave desde una ruta proporcionada.
-                    String rutaParaDesencriptar = dialogos.solicitarRutaDesencriptar();
-                    int claveParaDesencriptar = dialogos.solicitarClaveDesencriptar();
+                    String rutaParaDesencriptar = dialogos.solicitarRutaParaDesencriptar();
+                    int claveParaDesencriptar = dialogos.solicitarClaveParaDesencriptar();
 
                     try {
                         String contenido = lectorDeArchivos.obtenerRutaDeArchivo(rutaParaDesencriptar);
                         System.out.println("Desencriptando...\n");
 
-                        String rutaGuardarTextoDesencriptado = dialogos.solicitarRutaGuardar();
-                        String nuevoNombreTextoDesencriptado = dialogos.solicitarNombreGuardar();
+                        String rutaGuardarTextoDesencriptado = dialogos.solicitarRutaParaGuardar();
+                        String nuevoNombreTextoDesencriptado = dialogos.solicitarNombreParaGuardar();
                         String textoDesencriptado = desencriptador.desencriptarConClave(contenido, claveParaDesencriptar);
-                        guardarArchivo.guardarTextoEncriptado(rutaGuardarTextoDesencriptado,
-                                nuevoNombreTextoDesencriptado, textoDesencriptado);
-                        dialogos.mostrarDesencriptadoExitoso(textoDesencriptado,claveParaDesencriptar);
+                        String rutaCompleta = guardarArchivo.guardarTextoEncriptado
+                                (rutaGuardarTextoDesencriptado, nuevoNombreTextoDesencriptado, textoDesencriptado);
+                        dialogos.mostrarDesencriptadoExitoso(textoDesencriptado, claveParaDesencriptar);
+                        dialogos.mostrarGuardadoExitoso(rutaCompleta);
+
 
                     } catch (IOException e) {
                         System.out.println("Se ha producido un error al desencriptar, intente nuevamente" + e.getMessage());
@@ -92,17 +112,18 @@ public class Main {
                     break;
                 case 4:
                     // Desencriptar un archivo de texto por fuerza bruta.
-                    String rutaParaDesencriptarPorFuerzaBruta = dialogos.solicitarRutaDesencriptar();
+                    String rutaParaDesencriptarPorFuerzaBruta = dialogos.solicitarRutaParaDesencriptar();
 
                     try {
                         String contenido = lectorDeArchivos.obtenerRutaDeArchivo(rutaParaDesencriptarPorFuerzaBruta);
                         System.out.println("Desencriptando ...\n");
 
-                        String rutaGuardarTextoDesencriptado = dialogos.solicitarRutaGuardar();
-                        String nuevoNombreTextoDesencriptado = dialogos.solicitarNombreGuardar();
+                        String rutaGuardarTextoDesencriptado = dialogos.solicitarRutaParaGuardar();
+                        String nuevoNombreTextoDesencriptado = dialogos.solicitarNombreParaGuardar();
                         String textoDesencriptado = desencriptadorPorFuerzaBruta.desencriptarPorFuerzaBruta(contenido);
-                        guardarArchivo.guardarTextoEncriptado(rutaGuardarTextoDesencriptado,
-                                nuevoNombreTextoDesencriptado, textoDesencriptado);
+                        String rutaCompleta = guardarArchivo.guardarTextoEncriptado
+                                (rutaGuardarTextoDesencriptado, nuevoNombreTextoDesencriptado, textoDesencriptado);
+                        dialogos.mostrarGuardadoExitoso(rutaCompleta);
 
                     } catch (IOException e) {
                         System.out.println("Se ha producido un error al desencriptar, intente nuevamente" + e.getMessage());

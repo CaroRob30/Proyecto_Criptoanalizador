@@ -1,18 +1,20 @@
 import java.util.HashSet;
 /*
-En esta clase se intenta desencriptar un texto encriptado mediante el proceso de fuerza bruta,
-probando todas las posibles claves dentro de cierto rango predefinido en las variables finales
-"claveMinima" y "claveMaxima". Utiliza un objeto de la clase "Desencriptador" para realizar la
-desencriptación con cada clave mediante un bucle for, para luego verificar si el texto contiene
-alguna palabra en español, que se encuentran definidas en un HashSet dentro de un método boolean,
-de ser cierta esta condición, se devuelve el texto desencriptado junto con la clave encontrada.
-De igual manera se hace uso de la clase "GeneradorDeDialogos" para mostrar en pantalla los resultados.
+Esta clase se encarga de desencriptar el texto por medio del proceso "Desencriptación por
+fuerza bruta", que se refiere a que se prueban todas las posibles claves dentro de cierto
+rango predefinido en las variables privadas y finales "claveMinima" y "claveMaxima".
+Se utiliza un objetod de la clase "Desencriptador" dentro de un bucle for para probar con
+cada clave y verificar si el texto contiene alguna palabra en español, mismas que están
+definidas en un HashSet, de tener algunas de estas palabras incluidas en el texto, se detiene
+el bucle y se guarda esa clave como la clave desencriptadora.
+El método boolean "incluyeAlgunaPalabraEnEspanol" tiene como función devolver verdadero o falso
+y se encuentra dentro del bucle for para lograr descifrar la clave.
 */
 
 public class DesencriptadorPorFuerzaBruta {
 
     private static final int claveMinima = 1;
-    private static final int claveMaxima = 25;
+    private static final int claveMaxima = 26;
 
     GeneradorDeDialogos dialogos = new GeneradorDeDialogos();
     Desencriptador desencriptador = new Desencriptador();
