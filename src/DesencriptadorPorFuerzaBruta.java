@@ -1,73 +1,68 @@
 import java.util.HashSet;
+/*
+En esta clase se intenta desencriptar un texto encriptado mediante el proceso de fuerza bruta,
+probando todas las posibles claves dentro de cierto rango predefinido en las variables finales
+"claveMinima" y "claveMaxima". Utiliza un objeto de la clase "Desencriptador" para realizar la
+desencriptación con cada clave mediante un bucle for, para luego verificar si el texto contiene
+alguna palabra en español, que se encuentran definidas en un HashSet dentro de un método boolean,
+de ser cierta esta condición, se devuelve el texto desencriptado junto con la clave encontrada.
+De igual manera se hace uso de la clase "GeneradorDeDialogos" para mostrar en pantalla los resultados.
+*/
 
 public class DesencriptadorPorFuerzaBruta {
+
     private static final int claveMinima = 1;
     private static final int claveMaxima = 25;
-    private Encriptador encriptador;
-    private HashSet<String> palabrasEnEspañol;
 
-    public DesencriptadorPorFuerzaBruta() {
-        this.encriptador = new Encriptador();
-        this.palabrasEnEspañol = new HashSet<>();
-        cargarPalabrasEnEspañol();
+    GeneradorDeDialogos dialogos = new GeneradorDeDialogos();
+    Desencriptador desencriptador = new Desencriptador();
 
-    }
-
-    private void cargarPalabrasEnEspañol() {
-        palabrasEnEspañol.add(" el ");
-        palabrasEnEspañol.add(" la ");
-        palabrasEnEspañol.add(" los ");
-        palabrasEnEspañol.add(" las ");
-        palabrasEnEspañol.add(" y ");
-        palabrasEnEspañol.add(" un ");
-        palabrasEnEspañol.add(" una ");
-        palabrasEnEspañol.add(" unos ");
-        palabrasEnEspañol.add(" unas ");
-        palabrasEnEspañol.add(" no ");
-        palabrasEnEspañol.add(" aunque ");
-        palabrasEnEspañol.add(" aún ");
-        palabrasEnEspañol.add(" que ");
-
-    }
-
-    public String desencriptarPorFuerzaBruta(String textoEncriptado) {
-        String textoDesencriptado = "";
-        String textoMejorDesencriptado = "";
-        int claveUtilizada = 0;
-
+    String desencriptarPorFuerzaBruta(String textoEncriptado) {
+        String textoTentativo = "";
+        int claveUtilizada;
         for (int clave = claveMinima; clave <= claveMaxima; clave++) {
-            String textodesencriptado = desencriptarTexto(textoEncriptado, clave);
-            if (contienePalabrasEnEspañol(textoDesencriptado)) {
-                textoMejorDesencriptado = textoDesencriptado;
+            textoTentativo = desencriptador.desencriptarConClave(textoEncriptado, clave);
+            boolean contienePalabrasEnEspanol = incluyeAlgunaPalabraEnEspanol(textoTentativo);
+            if (contienePalabrasEnEspanol) {
                 claveUtilizada = clave;
-                System.out.println("Texto desencriptado con clave " + clave + ": " + textoDesencriptado);
+                dialogos.mostrarDesencriptadoExitoso(textoTentativo, claveUtilizada);
+
                 break;
             }
         }
-        System.out.println("La clave utilizada para encriptar es: " + claveUtilizada);
-        return textoMejorDesencriptado;
+        return textoTentativo;
     }
 
-    private String desencriptarTexto(String textoEncriptado, int clave) {
-        StringBuilder textoDesencriptado = new StringBuilder();
-        for (int i = 0; i < textoEncriptado.length(); i++) {
-            char letraEncriptada = textoDesencriptado.charAt(i);
-            char letraDesencriptada = encriptador.encriptarLetra(letraEncriptada, -clave);
-            textoDesencriptado.append(letraDesencriptada);
+    boolean incluyeAlgunaPalabraEnEspanol(String texto) {
+        HashSet<String> palabrasEnEspanol = new HashSet<>();
+        palabrasEnEspanol.add(" el ");
+        palabrasEnEspanol.add(" la ");
+        palabrasEnEspanol.add(" los ");
+        palabrasEnEspanol.add(" las ");
+        palabrasEnEspanol.add(" y ");
+        palabrasEnEspanol.add(" un ");
+        palabrasEnEspanol.add(" una ");
+        palabrasEnEspanol.add(" unos ");
+        palabrasEnEspanol.add(" unas ");
+        palabrasEnEspanol.add(" no ");
+        palabrasEnEspanol.add(" aunque ");
+        palabrasEnEspanol.add(" aún ");
+        palabrasEnEspanol.add(" que ");
+        palabrasEnEspanol.add(" con ");
+        palabrasEnEspanol.add(" contra ");
+        palabrasEnEspanol.add(" al ");
+        palabrasEnEspanol.add(" en ");
+        palabrasEnEspanol.add(" su ");
+        palabrasEnEspanol.add(" sus ");
+        palabrasEnEspanol.add(" se ");
 
-        }
-        return textoDesencriptado.toString();
-    }
-
-    private boolean contienePalabrasEnEspañol(String texto) {
-        String[] palabras = texto.split("\\s+");
-        for (String palabra : palabras) {
-            if (palabrasEnEspañol.contains(palabra.toLowerCase())) {
+        for (String palabra : palabrasEnEspanol) {
+            if (texto.toLowerCase().contains(palabra)) {
                 return true;
             }
         }
         return false;
     }
-}
 
+}
 
